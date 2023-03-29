@@ -3,9 +3,10 @@ from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship
 
 from database import Base
+from flask_login import UserMixin
 
 
-class User(Base):
+class User(UserMixin, Base):
     """
     Create user's model
     """
