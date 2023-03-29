@@ -32,7 +32,8 @@ def index() -> Union[str, Response]:
     The function renders start page.
     :return: HTML
     """
-    return render_template('index.html')
+    bot_id = os.environ.get('BOT_ID')
+    return render_template('index.html', bot_id=bot_id)
 
 
 @app.route('/profile', methods=('GET', ))
@@ -41,7 +42,8 @@ def profile() -> Union[str, Response]:
     The function renders the page with user info.
     :return: HTML
     """
-    return render_template('profile.html', title='Profile')
+    bot_id = os.environ.get('BOT_ID')
+    return render_template('profile.html', bot_id=bot_id)
 
 
 @app.route('/login', methods=('GET', 'POST'))
@@ -50,9 +52,10 @@ def login() -> Union[str, Response]:
     The function renders a page with a login form.
     :return: HTML
     """
+    bot_id = os.environ.get('BOT_ID')
     if request.method == "GET":
         form = LoginForm()
-        return render_template('login.html', form=form)
+        return render_template('login.html', form=form, bot_id=bot_id)
 
 
 @app.route('/logout', methods=('GET', ))
@@ -61,7 +64,7 @@ def logout() -> Union[str, Response]:
     The function renders the page with user info.
     :return: HTML
     """
-    return 'logout'
+    return redirect('/')
 
 
 if __name__ == "__main__":
