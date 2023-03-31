@@ -48,22 +48,31 @@ def index() -> Union[str, Response]:
     return render_template('index.html')
 
 
-@app.route('/signup', methods=('GET',))
+@app.route('/signup', methods=('GET', 'POST'))
 def signup() -> Union[str, Response]:
     """
     The function is redirecting the user to telegram bot
     """
+
     bot_id = os.environ.get('BOT_ID')
     return redirect(f'https://telegram.me/{bot_id}')
 
 
-@app.route('/profile', methods=('GET',))
+@app.route('/profile', methods=('GET', ))
 @login_required
 def profile() -> Union[str, Response]:
     """
     The function renders the page with user info
     """
-    return render_template('profile.html', name=current_user.name)
+    data = {
+        'login': current_user.login,
+        'first_name': current_user.first_name,
+        'age': current_user.age,
+        'gender': current_user.gender,
+        'telegram_id': current_user.telegram_id,
+        'telegram_username': '@' + current_user.telegram_username
+    }
+    return render_template('profile.html', data=data)
 
 
 @app.route('/login', methods=('GET', 'POST'))
@@ -75,10 +84,10 @@ def login() -> Union[str, Response]:
         form = LoginForm()
         return render_template('login.html', form=form)
     else:
-        name = request.form.get('name')
+        name = request.form.get('login')
         password = request.form.get('password')
         remember = True if request.form.get('remember') else False
-        user = models.User.query.filter_by(name=name).first()
+        user = models.User.query.filter_by(login=name).first()
         if not user or not check_password_hash(user.password, password):
             flash('Please check your login details and try again.')
             return redirect('/login')

@@ -7,10 +7,10 @@ class LoginForm(FlaskForm):
     """
     Form for login user
     """
-    name = StringField(
-        label='Username',
+    login = StringField(
+        label='login',
         validators=[validators.length(max=25)],
-        render_kw={"placeholder": "Username", "class": "input is-large"}
+        render_kw={"placeholder": "Login", "class": "input is-large"}
     )
     password = StringField(
         'Password',

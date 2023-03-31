@@ -1,9 +1,7 @@
-from sqlalchemy import Column, Integer, String, Numeric, Text
-from sqlalchemy import ForeignKey
-from sqlalchemy.orm import relationship
+from sqlalchemy import Column, Integer, String
+from flask_login import UserMixin
 
 from database import Base
-from flask_login import UserMixin
 
 
 class User(UserMixin, Base):
@@ -20,7 +18,6 @@ class User(UserMixin, Base):
     password = Column(String(100))
     telegram_id = Column(String(100), unique=True)
     telegram_username = Column(String(100), unique=True)
-
 
     def __str__(self):
         return f'{self.id}-{self.name}'
